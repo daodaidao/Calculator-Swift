@@ -39,10 +39,10 @@ class ViewController: UIViewController {
             performOperation (operation: { (op1, op2)  in
                 return op1 * op2
             })
-            //后面除前面 
+       
         case "/":
             performOperation (operation: { (op1, op2)  in
-                return op1 / op2
+                return op2  / op1
             })
             
         case "+":
@@ -53,6 +53,11 @@ class ViewController: UIViewController {
             performOperation (operation: { (op1, op2)  in
                 return op1 - op2
             })
+            
+        case "平方":
+            performOperation (operation: { (op1, op2)  in return sqrt(op1)
+            })
+            
         default:
             break
         }

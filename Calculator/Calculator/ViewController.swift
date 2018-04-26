@@ -8,6 +8,9 @@ class ViewController: UIViewController {
     
     var userIsInTheMiddleOfTypeingANumber : Bool = false
     
+    var brain = CalculatorBrain()
+    
+    
     @IBAction func appendDigit(_ sender: UIButton) {
         
         let digit = sender.currentTitle!
@@ -26,62 +29,81 @@ class ViewController: UIViewController {
     
     @IBAction func operate(_ sender: UIButton) {
         
-        let operation = sender.currentTitle!
         if userIsInTheMiddleOfTypeingANumber{
             enter()
         }
-        
-        
-        
-        switch operation {
-        //也支持图片类型，比如你的按钮是个图片，可以写名字
-        case "*":
-            performOperation (operation: { (op1, op2)  in
-                return op1 * op2
-            })
-       
-        case "/":
-            performOperation (operation: { (op1, op2)  in
-                return op2  / op1
-            })
+        if let operation = sender.currentTitle  {
+           print(operation)
+
+         if let result = brain.perforOperation(symbol: operation) {
+                displayValue = result
+            }
             
-        case "+":
-            performOperation (operation: { (op1, op2)  in
-                return op1 + op2
-            })
-        case "-":
-            performOperation (operation: { (op1, op2)  in
-                return op1 - op2
-            })
+            else {
+                displayValue = 0
+            }
             
-        case "平方":
-            performOperation (operation: { (op1, op2)  in return sqrt(op1)
-            })
-            
-        default:
-            break
         }
+        
+        
+        
+        
+//        switch operation {
+//        //也支持图片类型，比如你的按钮是个图片，可以写名字
+//        case "*":
+//            performOperation (operation: { (op1, op2)  in
+//                return op1 * op2
+//            })
+//
+//        case "/":
+//            performOperation (operation: { (op1, op2)  in
+//                return op2  / op1
+//            })
+//
+//        case "+":
+//            performOperation (operation: { (op1, op2)  in
+//                return op1 + op2
+//            })
+//        case "-":
+//            performOperation (operation: { (op1, op2)  in
+//                return op1 - op2
+//            })
+//
+//        case "平方":
+//            performOperation (operation: { (op1, op2)  in return sqrt(op1)
+//            })
+//
+//        default:
+//            break
+//        }
         
     }
     
-    func performOperation(operation: (Double,Double) ->Double)
-    {
-        if operandStack.count >= 2{
-            displayValue = operation(operandStack.removeLast() , operandStack.removeLast())
-            enter()
-        }
-    }
+//    func performOperation(operation: (Double,Double) ->Double)
+//    {
+//        if operandStack.count >= 2{
+//            displayValue = operation(operandStack.removeLast() , operandStack.removeLast())
+//            enter()
+//        }
+//    }
     
     
-    var operandStack = Array<Double>()
+//    var operandStack = Array<Double>()
     
     @IBAction func enter() {
         
         
         
         userIsInTheMiddleOfTypeingANumber = false
-        operandStack.append(displayValue)
-        print(operandStack)
+//        operandStack.append(displayValue)
+//        print(operandStack)
+        
+       if let result = brain.pushOperand(operand: displayValue)
+       {
+            displayValue = result
+       }else{
+            displayValue = 0
+        }
         
     }
     
